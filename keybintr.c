@@ -1,4 +1,4 @@
-// Keyboard handling through interrupt 09h
+// Keyboard input through interrupt 09h
 // Demonstrates handling of extended scan codes (0xE0 prefix), but ignores translation of scan codes to character codes.
 
 #include <conio.h>

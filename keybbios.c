@@ -1,4 +1,4 @@
-// Keyboard handling through interrupt 16h (_bios_keybrd)
+// Keyboard input through interrupt 16h (_bios_keybrd)
 
 #include <bios.h>
 #include <dos.h>
