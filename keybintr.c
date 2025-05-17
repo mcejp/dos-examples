@@ -7,15 +7,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void (_interrupt _far * old_keyb_handler)(void);
+#define PIC_CMD         0x20
+#define PIC_IMR         0x21
+#define PIC_CMD_EOI     0x20
 
-enum { SCAN_ESC = 0x01 };
+#define SCAN_ESC        0x01
 
-enum { BUFFER_SIZE = 16 };
+#define BUFFER_SIZE  16
 static volatile uint16_t buffer[BUFFER_SIZE];
 static volatile uint8_t writepos = 0;
 static volatile uint8_t readpos = 0;
 static volatile uint8_t extended = 0;  // strictly speaking, we shouldn't assume this
+
+static void (_interrupt _far * old_keyb_handler)(void);
 
 // Register reference: https://bitsavers.org/pdf/ibm/pc/xt/6361459_PC_XT_Technical_Reference_Apr84.pdf, p 1-26
 void _interrupt keyb_handler(void) {
@@ -54,7 +58,7 @@ void _interrupt keyb_handler(void) {
 end:
 
     // send EOI to PIC
-    outp(0x20, 0x20);
+    outp(PIC_CMD, PIC_CMD_EOI);
 }
 
 void keyb_init(void) {
